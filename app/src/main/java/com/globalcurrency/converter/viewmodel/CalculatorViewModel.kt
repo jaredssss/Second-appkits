@@ -105,11 +105,11 @@ class CalculatorViewModel @Inject constructor(
 
     fun onBackspace() {
         val current = _uiState.value.display
-        val new = when {
+        val newDisplay = when {
             current.length <= 1 || (current.startsWith("-") && current.length == 2) -> "0"
             else -> current.dropLast(1)
         }
-        _uiState.update { it.copy(display = new) }
+        _uiState.update { it.copy(display = newDisplay) }
         triggerConversion()
     }
 

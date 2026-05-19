@@ -11,6 +11,8 @@ val GoldDark          = Color(0xFFBFA000)
 val DarkBackground    = Color(0xFF0A0A0A)  // near-black page background
 val DarkSurface       = Color(0xFF141414)  // card / sheet surface
 val DarkSurfaceVariant= Color(0xFF1E1E1E)  // elevated surface
+val DarkUtilitySurface= Color(0xFF2A2A2A)  // utility keys surface
+val DarkDangerSurface = Color(0xFF2A1010)  // destructive key surface
 val DarkOutline       = Color(0xFF2C2C2C)  // dividers / borders
 
 // ── Secondary / accent ───────────────────────────────────────────────────────

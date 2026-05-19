@@ -8,10 +8,8 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Clear
-import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.Star
-import androidx.compose.material.icons.outlined.StarBorder
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -26,6 +24,8 @@ import com.globalcurrency.converter.data.model.ALL_CURRENCIES
 import com.globalcurrency.converter.data.model.Currency
 import com.globalcurrency.converter.data.model.FREE_CURRENCIES
 import com.globalcurrency.converter.ui.theme.*
+
+private val PREMIUM_ONLY_COUNT = ALL_CURRENCIES.count { it.isPremiumOnly }
 
 /**
  * A row that displays the currently selected currency and opens the picker dialog on tap.
@@ -144,7 +144,7 @@ fun CurrencyPickerDialog(
                 }
                 if (!isPremium) {
                     Text(
-                        text = "🔒 ${ALL_CURRENCIES.count { it.isPremiumOnly }} more currencies with Premium",
+                        text = "🔒 $PREMIUM_ONLY_COUNT more currencies with Premium",
                         style = MaterialTheme.typography.bodySmall,
                         color = GoldDark,
                         modifier = Modifier.padding(bottom = 8.dp)

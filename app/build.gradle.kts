@@ -6,6 +6,17 @@ plugins {
     id("com.google.devtools.ksp")
 }
 
+val localProperties = java.util.Properties().apply {
+    val file = rootProject.file("local.properties")
+    if (file.exists()) file.inputStream().use(::load)
+}
+
+fun secret(name: String, defaultValue: String = ""): String {
+    return localProperties.getProperty(name)
+        ?: System.getenv(name)
+        ?: defaultValue
+}
+
 android {
     namespace = "com.globalcurrency.converter"
     compileSdk = 35
@@ -22,14 +33,10 @@ android {
             useSupportLibrary = true
         }
 
-        // Exchange rate API base URL (free tier: https://open.er-api.com)
         buildConfigField("String", "EXCHANGE_RATE_BASE_URL", "\"https://v6.exchangerate-api.com/v6/\"")
-        // Replace YOUR_API_KEY with your actual ExchangeRate-API key (free at exchangerate-api.com)
-        buildConfigField("String", "EXCHANGE_RATE_API_KEY", "\"YOUR_EXCHANGE_RATE_API_KEY\"")
-        // Stripe publishable key (get from dashboard.stripe.com)
-        buildConfigField("String", "STRIPE_PUBLISHABLE_KEY", "\"YOUR_STRIPE_PUBLISHABLE_KEY\"")
-        // Backend URL for subscription verification (your server)
-        buildConfigField("String", "BACKEND_BASE_URL", "\"https://your-backend.example.com/\"")
+        buildConfigField("String", "EXCHANGE_RATE_API_KEY", "\"${secret("EXCHANGE_RATE_API_KEY")}\"")
+        buildConfigField("String", "STRIPE_PUBLISHABLE_KEY", "\"${secret("STRIPE_PUBLISHABLE_KEY")}\"")
+        buildConfigField("String", "BACKEND_BASE_URL", "\"${secret("BACKEND_BASE_URL", "https://your-backend.example.com/")}\"")
     }
 
     buildTypes {

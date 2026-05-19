@@ -3,11 +3,8 @@ package com.globalcurrency.converter.viewmodel
 import android.app.Activity
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.globalcurrency.converter.BuildConfig
 import com.globalcurrency.converter.data.model.PremiumStatus
 import com.globalcurrency.converter.data.repository.CurrencyRepository
-import com.stripe.android.PaymentConfiguration
-import com.stripe.android.model.PaymentMethod
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
@@ -21,6 +18,8 @@ data class PremiumUiState(
     val showPaymentSheet: Boolean    = false,
     val userEmail: String            = ""
 )
+
+private const val PREMIUM_DURATION_MS = 30L * 24 * 60 * 60 * 1000
 
 /**
  * Manages the premium subscription flow.
@@ -98,7 +97,7 @@ class PremiumViewModel @Inject constructor(
 
     /** Called after Stripe confirms payment successfully. */
     fun activatePremium(email: String) {
-        val expiryMs = System.currentTimeMillis() + 30L * 24 * 60 * 60 * 1000 // +30 days
+        val expiryMs = System.currentTimeMillis() + PREMIUM_DURATION_MS
         viewModelScope.launch {
             repository.setPremiumStatus(true, expiryMs, email)
             _uiState.update {

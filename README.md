@@ -20,8 +20,7 @@ Dark-mode-only Android app concept with:
 
 ### Partially functional (requires external configuration)
 - Real payments for sideloaded APK (`$5/month`) using Stripe:
-  - Add Stripe publishable key in `BuildConfig.STRIPE_PUBLISHABLE_KEY`
-  - Add backend URL in `BuildConfig.BACKEND_BASE_URL`
+  - Add `EXCHANGE_RATE_API_KEY`, `STRIPE_PUBLISHABLE_KEY`, and `BACKEND_BASE_URL` in `local.properties` (or environment variables)
   - Implement backend endpoint for PaymentIntent/SetupIntent creation
   - Implement webhook to activate/renew premium
 - Premium login + purchase restore:

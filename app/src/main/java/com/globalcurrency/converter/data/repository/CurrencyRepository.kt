@@ -12,7 +12,7 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 private const val TAG = "CurrencyRepository"
-private const val CACHE_TTL_MS = 6 * 60 * 60 * 1000L // 6 hours for free tier
+private const val CACHE_TTL_MS = 6 * 60 * 60 * 1000L // 6 hours cache duration
 
 @Singleton
 class CurrencyRepository @Inject constructor(
