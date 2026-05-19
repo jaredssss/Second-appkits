@@ -19,6 +19,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.globalcurrency.converter.data.model.ALL_CURRENCIES
 import com.globalcurrency.converter.ui.components.CurrencyPickerButton
 import com.globalcurrency.converter.ui.theme.*
 import com.globalcurrency.converter.util.formatCurrencyAmount
@@ -53,7 +54,7 @@ fun RatesScreen(
             verticalArrangement = Arrangement.spacedBy(10.dp)
         ) {
             CurrencyPickerButton(
-                selectedCurrency = com.globalcurrency.converter.data.model.ALL_CURRENCIES.find { it.code == state.baseCurrencyCode },
+                selectedCurrency = ALL_CURRENCIES.find { it.code == state.baseCurrencyCode },
                 isPremium = state.isPremium,
                 favorites = state.favorites,
                 onCurrencySelected = viewModel::onBaseCurrencyChanged,

@@ -19,7 +19,7 @@ data class PremiumUiState(
     val userEmail: String            = ""
 )
 
-private val THIRTY_DAY_DURATION_MS = TimeUnit.DAYS.toMillis(30)
+private val thirtyDayDurationMs = TimeUnit.DAYS.toMillis(30)
 
 /**
  * Manages the premium subscription flow.
@@ -96,7 +96,7 @@ class PremiumViewModel @Inject constructor(
 
     /** Called after Stripe confirms payment successfully. */
     fun activatePremium(email: String) {
-        val expiryMs = System.currentTimeMillis() + THIRTY_DAY_DURATION_MS
+        val expiryMs = System.currentTimeMillis() + thirtyDayDurationMs
         viewModelScope.launch {
             repository.setPremiumStatus(true, expiryMs, email)
             _uiState.update {

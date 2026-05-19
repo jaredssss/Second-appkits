@@ -13,7 +13,7 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 private const val TAG = "CurrencyRepository"
-private val EXCHANGE_RATE_CACHE_TTL_MS = TimeUnit.HOURS.toMillis(6) // 6 hours cache duration
+private val exchangeRateCacheTtlMs = TimeUnit.HOURS.toMillis(6) // 6 hours cache duration
 
 @Singleton
 class CurrencyRepository @Inject constructor(
@@ -31,7 +31,7 @@ class CurrencyRepository @Inject constructor(
         withContext(Dispatchers.IO) {
             val cached = db.exchangeRateDao().getCachedRate(baseCurrency)
             val now = System.currentTimeMillis()
-            if (cached != null && (now - cached.lastUpdatedAt) < EXCHANGE_RATE_CACHE_TTL_MS) {
+            if (cached != null && (now - cached.lastUpdatedAt) < exchangeRateCacheTtlMs) {
                 val type = object : TypeToken<Map<String, Double>>() {}.type
                 val rates: Map<String, Double> = gson.fromJson(cached.ratesJson, type)
                 return@withContext Result.success(rates)

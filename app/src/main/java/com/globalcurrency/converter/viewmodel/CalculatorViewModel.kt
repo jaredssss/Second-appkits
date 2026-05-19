@@ -44,10 +44,11 @@ class CalculatorViewModel @Inject constructor(
             }
         }
         // Default currencies
+        val fallbackCurrency = ALL_CURRENCIES.firstOrNull()
         _uiState.update {
             it.copy(
-                selectedCurrency  = ALL_CURRENCIES.find { it.code == "USD" },
-                convertToCurrency = ALL_CURRENCIES.find { it.code == "EUR" }
+                selectedCurrency = ALL_CURRENCIES.firstOrNull { it.code == "USD" } ?: fallbackCurrency,
+                convertToCurrency = ALL_CURRENCIES.firstOrNull { it.code == "EUR" } ?: fallbackCurrency
             )
         }
     }

@@ -4,7 +4,7 @@ Dark-mode-only Android app concept with:
 - Global currency converter
 - Dedicated calculator with live currency conversion
 - Free and premium feature tiers
-- Stripe-based `$5/month` premium subscription path for sideloaded APK distribution
+- Stripe-based $5/month premium subscription path for sideloaded APK distribution
 
 ## Current implementation status
 

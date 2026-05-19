@@ -36,7 +36,7 @@ android {
         buildConfigField("String", "EXCHANGE_RATE_BASE_URL", "\"https://v6.exchangerate-api.com/v6/\"")
         buildConfigField("String", "EXCHANGE_RATE_API_KEY", "\"${secret("EXCHANGE_RATE_API_KEY")}\"")
         buildConfigField("String", "STRIPE_PUBLISHABLE_KEY", "\"${secret("STRIPE_PUBLISHABLE_KEY")}\"")
-        buildConfigField("String", "BACKEND_BASE_URL", "\"${secret("BACKEND_BASE_URL", "https://your-backend.example.com/")}\"")
+        buildConfigField("String", "BACKEND_BASE_URL", "\"${secret("BACKEND_BASE_URL")}\"")
     }
 
     buildTypes {
