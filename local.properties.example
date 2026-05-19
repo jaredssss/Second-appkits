@@ -1,0 +1,6 @@
+# Copy this file to local.properties and fill values for local development.
+# Do NOT commit real secrets.
+
+EXCHANGE_RATE_API_KEY=your_exchange_rate_api_key
+STRIPE_PUBLISHABLE_KEY=pk_test_xxx
+BACKEND_BASE_URL=https://your-backend.example.com/
