@@ -81,27 +81,34 @@ class CurrencyRepository @Inject constructor(
         val toCurrency = ALL_CURRENCIES.find { it.code == toCode }
             ?: return Result.failure(Exception("Unknown currency: $toCode"))
 
-        return getRates(fromCode).map { rates ->
-            val rate = rates[toCode] ?: 1.0
-            val result = ConversionResult(
-                fromCurrency = fromCurrency,
-                toCurrency   = toCurrency,
-                fromAmount   = amount,
-                toAmount     = amount * rate,
-                rate         = rate
-            )
-            // Save to history
-            withContext(Dispatchers.IO) {
-                db.conversionHistoryDao().insert(
-                    ConversionHistoryEntry(
-                        fromCode = fromCode, toCode = toCode,
-                        fromAmount = amount, toAmount = result.toAmount, rate = rate
-                    )
+        return getRates(fromCode).fold(
+            onSuccess = { rates ->
+                val rate = rates[toCode] ?: 1.0
+                val result = ConversionResult(
+                    fromCurrency = fromCurrency,
+                    toCurrency = toCurrency,
+                    fromAmount = amount,
+                    toAmount = amount * rate,
+                    rate = rate
                 )
-                db.conversionHistoryDao().pruneOldEntries()
+                withContext(Dispatchers.IO) {
+                    db.conversionHistoryDao().insert(
+                        ConversionHistoryEntry(
+                            fromCode = fromCode,
+                            toCode = toCode,
+                            fromAmount = amount,
+                            toAmount = result.toAmount,
+                            rate = rate
+                        )
+                    )
+                    db.conversionHistoryDao().pruneOldEntries()
+                }
+                Result.success(result)
+            },
+            onFailure = { error ->
+                Result.failure(error)
             }
-            result
-        }
+        )
     }
 
     fun getConversionHistory(limit: Int = 30): Flow<List<ConversionHistoryEntry>> =

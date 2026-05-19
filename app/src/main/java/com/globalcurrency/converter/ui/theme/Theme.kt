@@ -5,6 +5,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalView
 import androidx.core.view.WindowCompat
@@ -57,6 +58,3 @@ fun GlobalCurrencyTheme(content: @Composable () -> Unit) {
         content     = content
     )
 }
-
-// Expose as alias so Color.kt doesn't need an import cycle
-internal val Color = androidx.compose.ui.graphics.Color
