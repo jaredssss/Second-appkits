@@ -8,11 +8,12 @@ import com.google.gson.reflect.TypeToken
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.withContext
+import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 import javax.inject.Singleton
 
 private const val TAG = "CurrencyRepository"
-private const val EXCHANGE_RATE_CACHE_TTL_MS = 6 * 60 * 60 * 1000L // 6 hours cache duration
+private val EXCHANGE_RATE_CACHE_TTL_MS = TimeUnit.HOURS.toMillis(6) // 6 hours cache duration
 
 @Singleton
 class CurrencyRepository @Inject constructor(

@@ -21,6 +21,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.globalcurrency.converter.ui.components.CurrencyPickerButton
 import com.globalcurrency.converter.ui.theme.*
+import com.globalcurrency.converter.util.formatCurrencyAmount
 import com.globalcurrency.converter.viewmodel.RatesViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -105,7 +106,7 @@ fun RatesScreen(
                         Column(modifier = Modifier.weight(1f)) {
                             Text("${currency.code} • ${currency.name}", color = OnDarkBackground)
                             Text(
-                                text = rate?.let(::formatRate) ?: "No rate",
+                                text = rate?.let(::formatCurrencyAmount) ?: "No rate",
                                 color = OnDarkSurface,
                                 style = MaterialTheme.typography.bodySmall
                             )
@@ -122,8 +123,3 @@ fun RatesScreen(
         }
     }
 }
-
-private fun formatRate(value: Double): String =
-    if (value >= 1000) "%.2f".format(value)
-    else if (value >= 1) "%.4f".format(value)
-    else "%.6f".format(value)

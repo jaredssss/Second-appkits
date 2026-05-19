@@ -7,6 +7,7 @@ import com.globalcurrency.converter.data.repository.CurrencyRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
+import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 data class PremiumUiState(
@@ -18,7 +19,7 @@ data class PremiumUiState(
     val userEmail: String            = ""
 )
 
-private const val THIRTY_DAY_DURATION_MS = 30L * 24 * 60 * 60 * 1000
+private val THIRTY_DAY_DURATION_MS = TimeUnit.DAYS.toMillis(30)
 
 /**
  * Manages the premium subscription flow.

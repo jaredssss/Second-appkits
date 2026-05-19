@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.globalcurrency.converter.data.model.*
 import com.globalcurrency.converter.data.repository.CurrencyRepository
+import com.globalcurrency.converter.util.formatCurrencyAmount
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
@@ -130,7 +131,7 @@ class ConverterViewModel @Inject constructor(
                     _uiState.update {
                         it.copy(
                             isLoading       = false,
-                            convertedAmount = formatAmount(result.toAmount),
+                            convertedAmount = formatCurrencyAmount(result.toAmount),
                             exchangeRate    = result.rate,
                             lastUpdated     = "Rate updated"
                         )
@@ -169,13 +170,4 @@ class ConverterViewModel @Inject constructor(
         }
     }
 
-    private fun formatAmount(amount: Double): String {
-        return if (amount >= 1000) {
-            "%.2f".format(amount)
-        } else if (amount >= 1) {
-            "%.4f".format(amount)
-        } else {
-            "%.6f".format(amount)
-        }
-    }
 }

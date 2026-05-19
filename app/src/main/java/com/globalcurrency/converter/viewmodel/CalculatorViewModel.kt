@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.globalcurrency.converter.data.model.ALL_CURRENCIES
 import com.globalcurrency.converter.data.model.Currency
 import com.globalcurrency.converter.data.repository.CurrencyRepository
+import com.globalcurrency.converter.util.formatCurrencyAmount
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
@@ -45,8 +46,8 @@ class CalculatorViewModel @Inject constructor(
         // Default currencies
         _uiState.update {
             it.copy(
-                selectedCurrency  = ALL_CURRENCIES.find { c -> c.code == "USD" },
-                convertToCurrency = ALL_CURRENCIES.find { c -> c.code == "EUR" }
+                selectedCurrency  = ALL_CURRENCIES.find { it.code == "USD" },
+                convertToCurrency = ALL_CURRENCIES.find { it.code == "EUR" }
             )
         }
     }
@@ -175,7 +176,7 @@ class CalculatorViewModel @Inject constructor(
                     it.copy(
                         isLoading = false,
                         exchangeRate = rate,
-                        convertedDisplay = "≈ ${toCurrency.symbol} ${formatConverted(converted)} ${toCurrency.code}"
+                        convertedDisplay = "≈ ${toCurrency.symbol} ${formatCurrencyAmount(converted)} ${toCurrency.code}"
                     )
                 }
             }.onFailure {
@@ -191,8 +192,4 @@ class CalculatorViewModel @Inject constructor(
         else plain
     }
 
-    private fun formatConverted(value: Double): String =
-        if (value >= 1000) "%.2f".format(value)
-        else if (value >= 1) "%.4f".format(value)
-        else "%.6f".format(value)
 }
