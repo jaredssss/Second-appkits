@@ -11,7 +11,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.navigation.NavController
 import com.globalcurrency.converter.ui.components.CalculatorPad
 import com.globalcurrency.converter.ui.components.CurrencyPickerButton
 import com.globalcurrency.converter.ui.theme.*
@@ -20,7 +19,6 @@ import com.globalcurrency.converter.viewmodel.CalculatorViewModel
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CalculatorScreen(
-    navController: NavController,
     viewModel: CalculatorViewModel = hiltViewModel()
 ) {
     val state by viewModel.uiState.collectAsStateWithLifecycle()

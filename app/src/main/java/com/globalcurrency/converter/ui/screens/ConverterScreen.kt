@@ -17,7 +17,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.navigation.NavController
 import com.globalcurrency.converter.data.model.ALL_CURRENCIES
 import com.globalcurrency.converter.ui.components.CurrencyPickerButton
 import com.globalcurrency.converter.ui.theme.*
@@ -26,7 +25,6 @@ import com.globalcurrency.converter.viewmodel.ConverterViewModel
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ConverterScreen(
-    navController: NavController,
     viewModel: ConverterViewModel = hiltViewModel()
 ) {
     val state by viewModel.uiState.collectAsStateWithLifecycle()

@@ -9,11 +9,9 @@ class GlobalCurrencyApp : Application() {
 
     override fun onCreate() {
         super.onCreate()
-        // Initialize Stripe with your publishable key
-        // Replace BuildConfig.STRIPE_PUBLISHABLE_KEY with your actual key from dashboard.stripe.com
-        PaymentConfiguration.init(
-            applicationContext,
-            BuildConfig.STRIPE_PUBLISHABLE_KEY
-        )
+        val stripeKey = BuildConfig.STRIPE_PUBLISHABLE_KEY.trim()
+        if (stripeKey.isNotEmpty()) {
+            PaymentConfiguration.init(applicationContext, stripeKey)
+        }
     }
 }

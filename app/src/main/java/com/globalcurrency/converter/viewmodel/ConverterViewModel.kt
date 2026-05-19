@@ -78,11 +78,13 @@ class ConverterViewModel @Inject constructor(
 
     fun onFromCurrencyChanged(code: String) {
         _uiState.update { it.copy(fromCurrencyCode = code) }
+        persistDefaultCurrencies()
         performConversion()
     }
 
     fun onToCurrencyChanged(code: String) {
         _uiState.update { it.copy(toCurrencyCode = code) }
+        persistDefaultCurrencies()
         performConversion()
     }
 
@@ -94,14 +96,31 @@ class ConverterViewModel @Inject constructor(
                 inputAmount      = if (it.convertedAmount.isNotBlank()) it.convertedAmount else it.inputAmount
             )
         }
+        persistDefaultCurrencies()
         performConversion()
     }
 
     fun performConversion() {
         val state = _uiState.value
-        val amount = state.inputAmount.toDoubleOrNull() ?: return
+        val amount = state.inputAmount.toDoubleOrNull()
+        if (amount == null) {
+            _uiState.update {
+                it.copy(
+                    convertedAmount = "",
+                    exchangeRate = 0.0,
+                    errorMessage = if (state.inputAmount.isBlank()) null else "Enter a valid amount."
+                )
+            }
+            return
+        }
         if (amount <= 0) {
-            _uiState.update { it.copy(convertedAmount = "0.00", exchangeRate = 0.0) }
+            _uiState.update {
+                it.copy(
+                    convertedAmount = "0.00",
+                    exchangeRate = 0.0,
+                    errorMessage = "Amount must be greater than 0."
+                )
+            }
             return
         }
         viewModelScope.launch {
@@ -141,6 +160,13 @@ class ConverterViewModel @Inject constructor(
 
     fun refresh() {
         performConversion()
+    }
+
+    private fun persistDefaultCurrencies() {
+        val state = _uiState.value
+        viewModelScope.launch {
+            repository.setDefaultCurrencies(state.fromCurrencyCode, state.toCurrencyCode)
+        }
     }
 
     private fun formatAmount(amount: Double): String {

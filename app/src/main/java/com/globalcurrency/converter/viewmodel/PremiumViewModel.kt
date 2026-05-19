@@ -1,6 +1,5 @@
 package com.globalcurrency.converter.viewmodel
 
-import android.app.Activity
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.globalcurrency.converter.data.model.PremiumStatus
@@ -33,8 +32,7 @@ private const val THIRTY_DAY_DURATION_MS = 30L * 24 * 60 * 60 * 1000
  * 5. App polls backend to confirm → stores isPremium = true in DataStore
  *
  * REQUIRED SETUP:
- *  • Set BuildConfig.STRIPE_PUBLISHABLE_KEY (your Stripe publishable key)
- *  • Set BuildConfig.BACKEND_BASE_URL (your server that creates payment intents)
+ *  • Set STRIPE_PUBLISHABLE_KEY and BACKEND_BASE_URL in local.properties (or env vars)
  *  • Implement the backend endpoint: POST /create-payment-intent
  *    Returns: { clientSecret: "pi_xxx_secret_xxx", ephemeralKey: "...", customerId: "..." }
  *  • Implement Stripe webhook to set subscription active
@@ -65,7 +63,7 @@ class PremiumViewModel @Inject constructor(
      * Stripe PaymentSheet configuration, then launch the sheet.
      * For now it shows a demo confirmation (replace with real backend call).
      */
-    fun startSubscription(activity: Activity) {
+    fun startSubscription() {
         val email = _uiState.value.userEmail
         if (email.isBlank()) {
             _uiState.update { it.copy(errorMessage = "Please enter your email address to subscribe.") }
@@ -87,8 +85,8 @@ class PremiumViewModel @Inject constructor(
                     isLoading = false,
                     errorMessage = "⚙️ Payment backend not yet configured.\n\n" +
                         "To enable real payments:\n" +
-                        "1. Deploy the backend server (see PAYMENT_SETUP.md)\n" +
-                        "2. Set your Stripe keys in BuildConfig\n" +
+                        "1. Deploy the backend server\n" +
+                        "2. Set your Stripe keys in local.properties or env vars\n" +
                         "3. Replace the demo block in PremiumViewModel.startSubscription()"
                 )
             }

@@ -29,19 +29,30 @@ object AppModule {
             .readTimeout(30, TimeUnit.SECONDS)
             .addInterceptor(
                 HttpLoggingInterceptor().apply {
-                    level = HttpLoggingInterceptor.Level.BASIC
+                    level = if (BuildConfig.DEBUG) {
+                        HttpLoggingInterceptor.Level.BASIC
+                    } else {
+                        HttpLoggingInterceptor.Level.NONE
+                    }
                 }
             )
             .build()
 
     @Provides
     @Singleton
-    fun provideRetrofit(client: OkHttpClient): Retrofit =
-        Retrofit.Builder()
-            .baseUrl("${BuildConfig.EXCHANGE_RATE_BASE_URL}${BuildConfig.EXCHANGE_RATE_API_KEY}/")
+    fun provideRetrofit(client: OkHttpClient): Retrofit {
+        val apiKey = BuildConfig.EXCHANGE_RATE_API_KEY.trim()
+        val baseUrl = if (apiKey.isNotEmpty()) {
+            "${BuildConfig.EXCHANGE_RATE_BASE_URL}$apiKey/"
+        } else {
+            "https://open.er-api.com/v6/"
+        }
+        return Retrofit.Builder()
+            .baseUrl(baseUrl)
             .client(client)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
+    }
 
     @Provides
     @Singleton

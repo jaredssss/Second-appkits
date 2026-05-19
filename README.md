@@ -35,3 +35,11 @@ Dark-mode-only Android app concept with:
 ## Build notes
 - This repository includes the app source and configuration placeholders.
 - In this environment, Android dependencies from `dl.google.com` are not reachable, so Gradle build/test execution is blocked until network access is available.
+
+## Local configuration
+1. Copy `local.properties.example` to `local.properties`.
+2. Set:
+   - `EXCHANGE_RATE_API_KEY` (optional; app falls back to open rates endpoint when missing)
+   - `STRIPE_PUBLISHABLE_KEY`
+   - `BACKEND_BASE_URL`
+3. Never commit `local.properties`.

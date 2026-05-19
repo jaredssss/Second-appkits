@@ -85,9 +85,9 @@ fun MainScreen() {
             startDestination  = Screen.Converter.route,
             modifier          = Modifier.padding(innerPadding)
         ) {
-            composable(Screen.Converter.route)  { ConverterScreen(navController) }
-            composable(Screen.Calculator.route) { CalculatorScreen(navController) }
-            composable(Screen.Rates.route)      { RatesScreen(navController) }
+            composable(Screen.Converter.route)  { ConverterScreen() }
+            composable(Screen.Calculator.route) { CalculatorScreen() }
+            composable(Screen.Rates.route)      { RatesScreen() }
             composable(Screen.Premium.route)    { PremiumScreen() }
         }
     }

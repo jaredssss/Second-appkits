@@ -19,7 +19,6 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.navigation.NavController
 import com.globalcurrency.converter.ui.components.CurrencyPickerButton
 import com.globalcurrency.converter.ui.theme.*
 import com.globalcurrency.converter.viewmodel.RatesViewModel
@@ -27,7 +26,6 @@ import com.globalcurrency.converter.viewmodel.RatesViewModel
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun RatesScreen(
-    navController: NavController,
     viewModel: RatesViewModel = hiltViewModel()
 ) {
     val state by viewModel.uiState.collectAsStateWithLifecycle()
@@ -107,7 +105,7 @@ fun RatesScreen(
                         Column(modifier = Modifier.weight(1f)) {
                             Text("${currency.code} • ${currency.name}", color = OnDarkBackground)
                             Text(
-                                text = rate?.toString() ?: "No rate",
+                                text = rate?.let(::formatRate) ?: "No rate",
                                 color = OnDarkSurface,
                                 style = MaterialTheme.typography.bodySmall
                             )
@@ -124,3 +122,8 @@ fun RatesScreen(
         }
     }
 }
+
+private fun formatRate(value: Double): String =
+    if (value >= 1000) "%.2f".format(value)
+    else if (value >= 1) "%.4f".format(value)
+    else "%.6f".format(value)

@@ -52,8 +52,16 @@ class UserPreferencesRepository @Inject constructor(
     suspend fun setPremiumStatus(isPremium: Boolean, expiryMs: Long?, email: String?) {
         context.dataStore.edit { prefs ->
             prefs[Keys.IS_PREMIUM]     = isPremium
-            if (expiryMs != null) prefs[Keys.PREMIUM_EXPIRY] = expiryMs
-            if (email != null)    prefs[Keys.PREMIUM_EMAIL]  = email
+            if (expiryMs != null) {
+                prefs[Keys.PREMIUM_EXPIRY] = expiryMs
+            } else {
+                prefs.remove(Keys.PREMIUM_EXPIRY)
+            }
+            if (email != null) {
+                prefs[Keys.PREMIUM_EMAIL]  = email
+            } else {
+                prefs.remove(Keys.PREMIUM_EMAIL)
+            }
         }
     }
 

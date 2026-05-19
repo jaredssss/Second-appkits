@@ -83,7 +83,9 @@ class CurrencyRepository @Inject constructor(
 
         return getRates(fromCode).fold(
             onSuccess = { rates ->
-                val rate = rates[toCode] ?: 1.0
+                val rate = rates[toCode] ?: return@fold Result.failure(
+                    Exception("No rate available for $toCode")
+                )
                 val result = ConversionResult(
                     fromCurrency = fromCurrency,
                     toCurrency = toCurrency,
@@ -130,6 +132,9 @@ class CurrencyRepository @Inject constructor(
 
     suspend fun setPremiumStatus(isPremium: Boolean, expiryMs: Long?, email: String?) =
         prefs.setPremiumStatus(isPremium, expiryMs, email)
+
+    suspend fun setDefaultCurrencies(from: String, to: String) =
+        prefs.setDefaultCurrencies(from, to)
 
     suspend fun toggleFavorite(code: String) = prefs.toggleFavorite(code)
 }

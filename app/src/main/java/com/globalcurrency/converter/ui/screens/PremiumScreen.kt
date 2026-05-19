@@ -7,7 +7,6 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -20,7 +19,6 @@ fun PremiumScreen(
     viewModel: PremiumViewModel = hiltViewModel()
 ) {
     val state by viewModel.uiState.collectAsStateWithLifecycle()
-    val activity = LocalContext.current as? android.app.Activity
 
     Scaffold(
         topBar = {
@@ -59,7 +57,7 @@ fun PremiumScreen(
             )
 
             Button(
-                onClick = { if (activity != null) viewModel.startSubscription(activity) },
+                onClick = viewModel::startSubscription,
                 enabled = !state.isLoading,
                 modifier = Modifier.fillMaxWidth()
             ) {
